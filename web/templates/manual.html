@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Cümle Benzerliği - Manuel</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1> Cümleler Arası Anlam Benzerliği</h1>
+
+        <nav>
+            <a href="/manual" class="active">Manuel Giriş</a>
+            <a href="/batch">CSV Karşılaştırma</a>
+        </nav>
+
+        <form method="POST">
+            <label for="sentence1">Cümle 1:</label>
+            <textarea name="sentence1" id="sentence1" required>{{ sentence1 or '' }}</textarea>
+
+            <label for="sentence2">Cümle 2:</label>
+            <textarea name="sentence2" id="sentence2" required>{{ sentence2 or '' }}</textarea>
+
+            <label for="model">Model Seçimi:</label>
+            <select name="model" id="model">
+                <option value="SBERT" {% if model_choice == 'SBERT' %}selected{% endif %}>SBERT</option>
+                <option value="SimCSE" {% if model_choice == 'SimCSE' %}selected{% endif %}>SimCSE</option>
+            </select>
+
+            <button type="submit">Benzerliği Hesapla</button>
+        </form>
+
+        {% if scores %}
+        <div class="results">
+            <h2>🔍 Sonuçlar </h2>
+            <ul>
+                {% for metric, score in scores.items() %}
+                    <li><strong>{{ metric }}:</strong> {{ score }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
